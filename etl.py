@@ -4,18 +4,21 @@ from sql_queries import copy_table_queries, insert_table_queries
 
 
 def load_staging_tables(cur, conn):
+    '''Loads data from raw files into staging tables'''
     for query in copy_table_queries:
         cur.execute(query)
         conn.commit()
 
 
 def insert_tables(cur, conn):
+    '''Transforms data from staging tables into Star Schema tables'''
     for query in insert_table_queries:
         cur.execute(query)
         conn.commit()
 
 
 def main():
+    '''Opens config for connection, loads data into staging tables, transforms and inserts into Star Schema tables'''
     config = configparser.ConfigParser()
     config.read('dwh.cfg')
 
